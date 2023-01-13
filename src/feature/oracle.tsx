@@ -4,6 +4,7 @@ import { useSubstrate } from "../api/providers/connectContext";
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import {web3FromAddress } from '@polkadot/extension-dapp';
+import { useState } from 'react';
 
 export interface IRegisterProps {}
 
@@ -24,7 +25,10 @@ export default function Register(props: IRegisterProps) {
     getExtension();
   }, []);
 
-  const handleTransaction = async () => {
+  const [result1, setResult1] = useState();
+  const [result2, setResult2] = useState();
+
+  const registerOperator = async () => {
     console.log("Call api");
     console.log("Current account:{}", accounts);
     if (accounts !== null ) {
@@ -66,27 +70,33 @@ export default function Register(props: IRegisterProps) {
           }
         );
     });
-    console.log(await events);
+    window.alert(await events);
   }
   
   }
 
-  const handleQuery = async () =>{
-
+  const operators = async () =>{
     const res = await apiBC.query.oracleModule.operators(accounts[0].address);
-    console.log(res.toHuman());
-
+    setResult2(res.toString());
   }
 
 
   return <div>
     <h1> Register a new Operator. </h1>
-    <Button onClick={handleTransaction}>
+    <Button style={{
+      backgroundColor: '#B6BBB8',
+      marginRight: 10
+    }} onClick={registerOperator}>
       Set status Oracle
     </Button>
-
-    <Button onClick={handleQuery}>
+    <p>
+    <Button style={{
+      backgroundColor: '#B6BBB8',
+      marginRight: 10
+    }} onClick={operators}>
       Status
     </Button>
+    {' '} Result: {result2}
+    </p>
   </div>;
 }

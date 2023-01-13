@@ -68,12 +68,32 @@ export default function Register(props: IRegisterProps) {
    const handleswapassetidto = (event: any) => {
     setswapassetidto(event.target.value);
    };
+
+   const [pairsassetid1, setpairsassetid1] = useState(0);
+   const handlepairsassetid1 = (event: any) => {
+    setpairsassetid1(event.target.value);
+   };
+
+   const [pairsassetid2, setpairsassetid2] = useState(0);
+   const handlepairsassetid2 = (event: any) => {
+    setpairsassetid2(event.target.value);
+   };
+
+   const [reserveslpid, setreserveslpid] = useState(0);
+   const handlereserveslpid = (event: any) => {
+    setreserveslpid(event.target.value);
+   };
+
+   const [rewardslpid, setrewardslpid] = useState(0);
+   const handlerewardslpid = (event: any) => {
+    setrewardslpid(event.target.value);
+   };
  
     // Thêm phần show kết quả 
    const [result1, setResult1] = useState();
    const [result2, setResult2] = useState();
    const [result3, setResult3] = useState();
-   const [result4, setResult4] = useState();
+
 
   const mintLiquidity = async (arg1: any, arg2: any, arg3: any, arg4: any) => {
     console.log("Call api");
@@ -222,6 +242,15 @@ export default function Register(props: IRegisterProps) {
 
   }
 
+  const reserves = async (arg1: number) =>{
+    const res = await apiBC.query.marketModule.reserves(arg1);
+    setResult2(res.toString())
+  }
+
+  const rewards = async (arg1: number) =>{
+    const res = await apiBC.query.marketModule.rewards(arg1);
+    setResult3(res.toString())
+  }
 
   return <div>
     <h1>Extrinsics</h1> 
@@ -309,15 +338,50 @@ export default function Register(props: IRegisterProps) {
     <Button style={{
       backgroundColor: '#B6BBB8',
       marginRight: 10
-    }} onClick={() => pairs(totalsupplyassetid)}>
-      totalSupply
+    }} onClick={() => pairs(pairsassetid1,pairsassetid2)}>
+      Pairs
     </Button>
-    Enter AssetId:{' '}
+    Enter AssetId 1:{' '}
     <input 
         type="number" pattern="[0-9]*"
-        onChange={handletotalsupplyassetid}
+        onChange={handlepairsassetid1}
+      />
+     {' '} Enter AssetId 2:{' '}
+    <input 
+        type="number" pattern="[0-9]*"
+        onChange={handlepairsassetid2}
       />
       {' '}Result: {result1}
+    </p>
+
+    <p>
+    <Button style={{
+      backgroundColor: '#B6BBB8',
+      marginRight: 10
+    }} onClick={() => reserves(reserveslpid)}>
+      Reserves
+    </Button>
+    Enter Lpt AssetId:{' '}
+    <input 
+        type="number" pattern="[0-9]*"
+        onChange={handlereserveslpid}
+      />
+      {' '}Result: {result2}
+    </p>
+
+    <p>
+    <Button style={{
+      backgroundColor: '#B6BBB8',
+      marginRight: 10
+    }} onClick={() => rewards(rewardslpid)}>
+      Reserves
+    </Button>
+    Enter Lpt AssetId:{' '}
+    <input 
+        type="number" pattern="[0-9]*"
+        onChange={handlerewardslpid}
+      />
+      {' '}Result: {result3}
     </p>
   </div>;
 }
