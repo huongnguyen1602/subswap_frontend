@@ -374,7 +374,7 @@ export default function Register(props: IRegisterProps) {
       backgroundColor: '#B6BBB8',
       marginRight: 10
     }} onClick={() => rewards(rewardslpid)}>
-      Reserves
+      Rewards
     </Button>
     Enter Lpt AssetId:{' '}
     <input 
